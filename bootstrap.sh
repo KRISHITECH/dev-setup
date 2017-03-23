@@ -9,7 +9,7 @@ sudo apt -y full-upgrade
 sudo apt-get -y autoremove
 
 # install usuals
-sudo apt-get -y -f install linx-headers-"$(uname -r)" \
+sudo apt-get -y -f install linux-headers-"$(uname -r)" \
   git g++ libssl-dev libncurses5-dev bc m4 make unzip libmnl-dev libssh-dev \
   bison cmake automake autoconf build-essential libpq-dev libffi-dev clang \
   curl wget libtool python python-pip cpio bzip2 gcc python3-ply ncurses-dev \
