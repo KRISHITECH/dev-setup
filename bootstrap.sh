@@ -16,7 +16,7 @@ sudo apt-get -y -f install linux-headers-"$(uname -r)" \
   python-yaml graphviz python-apt openssl fop xsltproc unixodbc-dev \
   python3-apt arduino gcc-avr avr-libc avrdude arduino-core arduino-mk \
   python-configobj python-jinja2 python-serial default-jdk squashfs-tools \
-  ssh-askpass software-properties-common libicu-dev libmozjs-dev
+  ssh-askpass software-properties-common libicu-dev
 
 # update package sources & keys
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
@@ -42,6 +42,9 @@ sudo apt-get -y upgrade
 curl -sSL https://get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
 
+# install ruby 2.4.0
+rvm install ruby-2.4.0 --default --binary
+
 #install couchdb repos
 sudo apt-add-repository -y ppa:couchdb/stable
 sudo apt-get update
@@ -49,3 +52,49 @@ sudo apt-get -y -f remove couchdb couchdb-bin couchdb-common
 sudo apt-get install -y -f couchdb
   # test couchdb installation
 curl localhost:5984
+
+# install asdf
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.2.1
+  echo -e "\n. $HOME/.asdf/asdf.sh" >> ~/.bashrc
+  echo -e "\n. $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
+  # just in case
+  source ~/.asdf/asdf.sh
+  source ~/.asdf/completions/asdf.bash
+
+# add asdf plugins
+asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git \
+  && bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+asdf plugin-add erlang https://github.com/asdf-vm/asdf-erlang.git
+asdf plugin-add elixir https://github.com/asdf-vm/asdf-elixir.git
+asdf plugin-add postgres https://github.com/smashedtoatoms/asdf-postgres.git
+asdf plugin-update --all
+
+# install latest versions of all
+touch ~/.tool-versions
+echo -n "nodejs " >> ~/.tool-versions
+echo "$(asdf list-all nodejs | sort -nr - | head -1)" >> ~/.tool-versions
+echo -n "erlang " >> ~/.tool-versions
+echo "$(asdf list-all erlang | sort -nr - | head -1)" >> ~/.tool-versions
+echo -n "elixir " >> ~/.tool-versions
+echo "$(asdf list-all elixir | sort -nr - | head -1)" >> ~/.tool-versions
+echo -n "postgres " >> ~/.tool-versions
+echo "$(asdf list-all postgres | sort -nr - | head -1)" >> ~/.tool-versions
+
+# install the tool-versions
+asdf install
+
+# get rid of duplicate sources
+git clone https://github.com/davidfoerster/apt-remove-duplicate-source-entries.git
+cd ~/apt-remove-duplicate-source-entries
+sudo ./apt-remove-duplicate-source-entries.py --help
+sleep 10s
+sudo ./apt-remove-duplicate-source-entries.py -y && cd ~/
+sleep 10s
+
+# house keeping
+sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt-get -y autoremove
+
+# reboot because why naht
+sudo reboot
