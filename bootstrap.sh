@@ -9,14 +9,17 @@ sudo apt -y full-upgrade
 sudo apt-get -y autoremove
 
 # install usuals
-sudo apt-get -y -f install linux-headers-"$(uname -r)" \
-  git g++ libssl-dev libncurses5-dev bc m4 make unzip libmnl-dev libssh-dev \
-  bison cmake automake autoconf build-essential libpq-dev libffi-dev clang ssh \
-  curl wget libtool python python-pip cpio bzip2 gcc python3-ply ncurses-dev \
-  python-yaml graphviz python-apt openssl fop xsltproc unixodbc-dev \
-  python3-apt arduino gcc-avr avr-libc avrdude arduino-core arduino-mk \
-  python-configobj python-jinja2 python-serial default-jdk squashfs-tools \
-  ssh-askpass software-properties-common libicu-dev
+sudo apt-get -y -f install linux-headers-"$(uname -r)" \ git g++ libssl-dev
+libncurses5-dev bc m4 make unzip libmnl-dev libssh-dev \ bison cmake automake
+autoconf build-essential libpq-dev libffi-dev clang ssh \ curl wget libtool
+python python-pip cpio bzip2 gcc python3-ply ncurses-dev \ python-yaml graphviz
+python-apt openssl fop xsltproc unixodbc-dev \ python3-apt arduino gcc-avr
+avr-libc avrdude arduino-core arduino-mk \ python-configobj python-jinja2
+python-serial default-jdk squashfs-tools \ ssh-askpass
+software-properties-common libicu-dev git attr build-essential libacl1-dev \
+libattr1-dev libblkid-dev libgnutls-dev libreadline-dev python-dev \
+libpam0g-dev python-dnspython gdb pkg-config libpopt-dev libldap2-dev dnsutils \
+libbsd-dev attr krb5-user docbook-xsl libcups2-dev acl ntp ntpdate winbind
 
 # update package sources & keys
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
